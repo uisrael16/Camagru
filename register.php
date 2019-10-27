@@ -10,7 +10,7 @@
         <h2>Camagru Register</h2>
         </div>
 
-        <form method="post" action="server.php">
+        <form method="post" action="register.php">
             <div class="input-group">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Enter Username...">
