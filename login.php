@@ -11,18 +11,22 @@
         <form method="post" action="register.php">
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Enter Username...">
+                <input type="text" name="username" placeholder="Enter Username..."required>
             </div>
+            
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Enter Password...">
+                <input type="password" name="password" placeholder="Enter Password..."required>
             </div>
             <div class="input-group">
                 <button type="submit" name="login" class="btn">Login</button>
             </div>
+        
             <p>
                 Not yet a member? <a href="register.php">Register</a>
             </p>
+            <br>
+            <center><a href="forgotPassword.php"><p>forgot your password?</p></a></center>
         </form>
     </body>
 </html>

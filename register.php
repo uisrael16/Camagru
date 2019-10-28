@@ -1,4 +1,9 @@
-<?php include('server.php'); ?>
+<?php 
+    include('server.php');
+    $_SESSION['id'] = 1;
+    // SESSION_START();
+    
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,22 +18,30 @@
         <form method="post" action="register.php">
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Enter Username...">
+                <input type="text" name="username" placeholder="Enter Username..."required>
             </div>
             <div class="input-group">
                 <label>Email</label>
-                <input type="text" name="email" placeholder="Enter Email...">
+                <input type="text" name="email" placeholder="Enter Email..."required>
             </div>
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" name="password_1" placeholder="Enter Password...">
+                <input type="password" name="password_1" placeholder="Enter Password..."required>
             </div>
             <div class="input-group">
                 <label>Confirm Password</label>
-                <input type="password" name="password_2" placeholder="Enter Password...">
+                <input type="password" name="password_2" placeholder="Enter Password..."required>
             </div>
             <div class="input-group">
                 <button type="submit" name="register" class="btn">Register</button>
+                <p style='color: red'>
+                <?php 
+                    if (!empty($_SESSION['error'])){
+                        echo $_SESSION['error'];
+                        $_SESSION['error'] = '';
+                    }
+                ?>
+                </p>
             </div>
             <p>
                 Already a member? <a href="Login.php">Login</a>
