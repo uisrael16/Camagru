@@ -1,6 +1,6 @@
 <?php 
-    include('server.php');
-    $_SESSION['id'] = 1;
+require 'server.php';
+     $_SESSION['id'] = 1;
     // SESSION_START();
     
 ?>
@@ -31,6 +31,14 @@
             <div class="input-group">
                 <label>Confirm Password</label>
                 <input type="password" name="password_2" placeholder="Enter Password..."required>
+                <p style='color: red'>
+                <?php 
+                    
+                    if ($password_1 != $password_2)
+                        {
+                            echo "password doesn't match";
+                        }
+                ?>
             </div>
             <div class="input-group">
                 <button type="submit" name="register" class="btn">Register</button>
