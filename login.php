@@ -1,14 +1,51 @@
+<?php
+    require 'server.php';
+    require 'connect.php';
+    $message = "";
+
+    $error = NULL;
+    if (isset($_POST['login'])){
+        if (empty($_POST["username"]) || empty($_POST["password"]))
+        {
+            $message = '<label>ALL fields are required</label>';
+        }
+        else {
+            $sql = "SELECT * FROM users WHERE username = ? AND `password` = ?";
+            $stmt= $conn->prepare($sql);
+            $stmt->bindParam(1, $username);
+            $stmt->bindParam(2, $password);
+            $stmt->execute(
+
+            array(
+                'username' => $_POST["username"],
+                'password' => $_POST["password"]
+            )
+
+            );
+            $count = $stmt->fetchAll();
+            if($count > 0)
+            {
+                $_SESSION["username"] = $_POST["username"];
+                header("location:home.php");
+            }
+            else {
+                $message = '<label>Wrong Data</label>';
+            }
+        }
+    }
+
+?>
 <html>
     <head>
-        <title>Camagru | Register</title>
+        <title>Camagru | Login</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
         <div class="header">
-        <h2>Camagru Register</h2>
+        <h2>Camagru Login</h2>
         </div>
 
-        <form method="post" action="register.php">
+        <form method="post" action="home.php">
             <div class="input-group">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Enter Username..."required>

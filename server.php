@@ -4,7 +4,8 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     session_start();
-    // $_SESSION['word'] = md5($_POST['password_1']);
+    
+    //is the form been submitted
 if (isset($_POST['register']))
 {
     $username = $_POST['username'];
@@ -16,11 +17,20 @@ if (isset($_POST['register']))
     $stmt->bindParam(1, $username);
     $stmt->bindParam(2, $email);
     $stmt->execute();
-    
+
+    if (strlen($username) < 5)
+    {
+        $error = "<p>Your username must be at least 5 characters</p>";
+    }
+
     if (count($stmt->fetchAll()) > 0){
         $_SESSION['error'] = "$username is already taken";
         // echo "sql/database error";
     }
+    else if ($password_1 != $password_2)
+        {
+          echo "password doesn't match";
+        }
     else if (empty($username) || empty($email) || empty($password_1) || empty($password_2))
     {
         echo "missing information";
@@ -28,11 +38,14 @@ if (isset($_POST['register']))
     
     else
     {
-        $sql = "INSERT INTO users (username, email, pass) VALUES (?, ?, ?)";
+        //Generate Vkey
+        $vkey = md5(time().$username);
+        $sql = "INSERT INTO users (username, email, pass, vkey) VALUES (?, ?, ?, ?)";
         $stmt= $conn->prepare($sql);
         $stmt->bindParam(1, $username);
         $stmt->bindParam(2, $email);
         $stmt->bindParam(3, $password_1);
+        $stmt->bindParam(4, $vkey);
         if($stmt->execute())
         {
             $_POST['password_1'];
@@ -45,12 +58,11 @@ if (isset($_POST['register']))
         $conn = null;
     }
     // the message
-$msg = "Thank you for registering.\nWe have sent a verification email to the address provided";
-
+ $msg = "Thank you for registering.\nWe have sent a verification email to the address provided<br><br>
+        <a href=http://localhost:8080/Camagru/verifyemail.php?vkey=".$vkey.">confirm</a>";
 // use wordwrap() if lines are longer than 70 characters
 $msg = wordwrap($msg,70);
-
 // send email
-mail($email,"My subject",$msg);
+mail($email,"verify",$msg);
 }
 ?>  

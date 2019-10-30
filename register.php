@@ -2,7 +2,7 @@
 require 'server.php';
      $_SESSION['id'] = 1;
     // SESSION_START();
-    
+    $error = NULL;
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,13 +32,9 @@ require 'server.php';
                 <label>Confirm Password</label>
                 <input type="password" name="password_2" placeholder="Enter Password..."required>
                 <p style='color: red'>
-                <?php 
                     
-                    if ($password_1 != $password_2)
-                        {
-                            echo "password doesn't match";
-                        }
-                ?>
+                    
+                
             </div>
             <div class="input-group">
                 <button type="submit" name="register" class="btn">Register</button>
@@ -55,5 +51,10 @@ require 'server.php';
                 Already a member? <a href="Login.php">Login</a>
             </p>
         </form>
+        <center>
+            <?php
+                echo $error;
+            ?>
+        </center>
     </body>
 </html>
