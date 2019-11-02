@@ -1,8 +1,8 @@
 <?php
     require("connect.php");
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
     session_start();
     
     //is the form been submitted
@@ -27,6 +27,12 @@ if (isset($_POST['register']))
         $_SESSION['error'] = "$username is already taken";
         // echo "sql/database error";
     }
+    else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+           echo "Not a valid mail";
+       }
+        else if (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match("/^[a-zA-Z0-9]*$/", $username)){
+           echo "invalid email & username";
+       }
     else if ($password_1 != $password_2)
         {
           echo "password doesn't match";
@@ -35,7 +41,7 @@ if (isset($_POST['register']))
     {
         echo "missing information";
     }
-    
+
     else
     {
         //Generate Vkey
