@@ -1,9 +1,9 @@
 <?php
-    //  session_start();
-    //  ini_set('display_errors', 1);
-    // ini_set('display_startup_errors', 1);
-    //  error_reporting(E_ALL);
-
+     session_start();
+    //   ini_set('display_errors', 1);
+    //  ini_set('display_startup_errors', 1);
+    //   error_reporting(E_ALL);
+    require 'server.php';
     $img = $_POST['image'];
     $folderPath = "upload/";
     $image_parts = explode(";base64,", $img);
@@ -13,7 +13,7 @@
     $fileName = uniqid() . '.png';
     $file = $folderPath . $fileName;
     file_put_contents($file, $image_base64);
-    print_r($fileName);
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,10 +34,10 @@
 </head>
 <body>
 <ul>
-  <li><a href="#home">Home</a></li>
-  <li><a href="#news">Edit Profile</a></li>
+  <li><a href="home.php">Home</a></li>
+  <li><a href="edit.php">Edit Profile</a></li>
   <li><a href="#contact">Contact</a></li>
-  <li style="float:right"><a class="active" href="#about">Logout</a></li>
+  <li style="float:right"><a class="active" href="logout.php">Logout</a></li>
 </ul>
     <div class="container">
     <h1 class="text-center">Don't spoil the fun, take a picture now!</picture></h1>
@@ -59,6 +59,7 @@
         </div>
     </form>
 </div>
+
 <!-- Configure a few settings and attach camera -->
 <script language="JavaScript">
     Webcam.set({
