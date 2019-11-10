@@ -1,6 +1,5 @@
 <?php
      session_start();
-    require '../Controllers/register.php';
     require '../Config/connection.php';
     
 
