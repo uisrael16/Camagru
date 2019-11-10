@@ -10,7 +10,6 @@ try
 {
     $conn = new PDO("$db_driver:host=$db_server;dbname=$db_name", $db_user, $db_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    include_once 'setup.php';
 }
 catch(PDOException $e)
 {
