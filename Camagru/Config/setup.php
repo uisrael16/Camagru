@@ -38,5 +38,7 @@
   `picture` varchar(100) NOT NULL
    )";
    $conn->exec($sql);
+
+   header("Location: ../index.php");
    
 ?>
