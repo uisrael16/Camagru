@@ -1,3 +1,49 @@
+<?php
+
+session_start();
+if (isset($_POST['login']))
+{
+    $user = $_POST['username'];
+    $pass = $_POST['password'];
+    
+    if (empty($user) || empty($pass))
+    {
+        echo "missing inputs";
+    }
+    else
+    {
+        $pass = md5($pass);
+        require("../Config/connection.php");
+        $sql = "SELECT * FROM users WHERE username = ? AND pass = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $user);
+        $stmt->bindParam(2, $pass);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0)
+        {
+            unset($_SESSION['login']);
+            $user = $stmt->fetch();
+            if ($user['verified'] == 0)
+            {
+                echo "user not verified";
+            }
+            else
+            {
+                $_SESSION["login"]["id"] = $user["id"];
+                $_SESSION["login"]["email"] = $user["email"];
+                $_SESSION["login"]["username"] = $user["username"];
+                $_SESSION["username"] = $user["username"];
+                echo "you are loged in";
+            }
+        }
+        else
+        {
+            echo "invalid password/username";
+        }
+    }
+}
+
+?>
 <html>
     <head>
         <title>Camagru | Login</title>
@@ -9,15 +55,15 @@
         </div>
 
         <div class = "form">
-        <form method="post" action="../Controllers/login.php">
+        <form method="post">
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Enter Username..."required>
+                <input type="text" name="username" placeholder="Enter Username..." value="unathi">
             </div>
             
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Enter Password..."required>
+                <input type="password" name="password" placeholder="Enter Password..." value="a">
             </div>
             <div class="input-group">
                 <button type="submit" name="login" class="btn">Login</button>

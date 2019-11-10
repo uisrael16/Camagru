@@ -1,9 +1,9 @@
 <?php
-    require("../Config/connection.php");
+    require("../Config/database.php");
         
-    // ini_set('display_errors', 1);
-    // ini_set('display_startup_errors', 1);
-    // error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     
     
     //is the form been submitted
@@ -11,6 +11,7 @@ if (isset($_POST['register']))
 {
     $username = $_POST['username'];
     $email = $_POST['email'];
+    $password = $_POST['password_1'];
     $password_1 = md5($_POST['password_1']);
     $password_2 = md5($_POST['password_2']);
     $sql = "SELECT * FROM `users` WHERE `username` = ? OR `email` = ?";
@@ -19,8 +20,10 @@ if (isset($_POST['register']))
     $stmt->bindParam(2, $email);
     $stmt->execute();
 
-    if (strlen($_POST["password"]) <= 5) {
-        echo  "Your Password Must Contain At Least 5 Characters!";
+    // die(" ". . " " .);
+
+    if (strlen($password) <= 8) {
+        echo  "Your Password Must Contain At Least 8 Characters!";
     }
 
     if (count($stmt->fetchAll()) > 0){
@@ -53,9 +56,11 @@ if (isset($_POST['register']))
 
     else
     {
+       
         //Generate Vkey
         $vkey = md5(time().$username);
-        $sql = "INSERT INTO users (username, email, pass, vkey) VALUES (?, ?, ?, ?)";
+        $password = md5($password_1);
+        $sql = "INSERT INTO  users (username, email, pass, vkey) VALUES (?, ?, ?, ?)";
         $stmt= $conn->prepare($sql);
         $stmt->bindParam(1, $username);
         $stmt->bindParam(2, $email);
@@ -73,8 +78,8 @@ if (isset($_POST['register']))
         $conn = null;
     }
     // the message
- $msg = "Thank you for registering.\nWe have sent a verification email to the address provided<br><br>
-        <a href=http://localhost:8080/Camagru/Controllers/verifyemail.php?vkey=".$vkey.">confirm</a>";
+ $msg = 'Thank you for registering.\nWe have sent a verification email to the address provided<br><br>
+        <a href="http://localhost:8080/Camagru/Controllers/verifyemail.php?vkey=.$vkey.">confirm</a>';
 // use wordwrap() if lines are longer than 70 characters
 $msg = wordwrap($msg,70);
 // send email

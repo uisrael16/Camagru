@@ -1,6 +1,6 @@
 <?php
      session_start();
-    require '../Config/connection.php';
+    require '../Config/database.php';
     
 
    if (isset($_GET['vkey'])) {

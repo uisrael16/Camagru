@@ -19,7 +19,7 @@
 <ul>
   <li><a href="../Views/fileUpload.php">Home</a></li>
   <li><a href="edit.php">Edit Profile</a></li>
-  <li><a href="#contact">Contact</a></li>
+  <li><a href="gallery.php">Gallery</a></li>
   <li style="float:right"><a class="active" href="../Views/login.php">Logout</a></li>
 </ul>
      

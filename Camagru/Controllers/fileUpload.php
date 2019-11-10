@@ -4,6 +4,7 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
+    //$username = $_SESSION["username"];
     
     //check if the uploaded image is a real file
     if(isset($_POST["upload"])) {
@@ -31,44 +32,45 @@
             header("location: ../Views/fileUpload.php");
         }
     
-    //check if image already exist in the destination path
-    if (file_exists($pic_name)){
-        $_SESSION['error'] = "File already exists";
-        header("location: ../Views/fileUpload.php");
-    }
-    
-    //check if the image size is less than 5MB
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-        $_SESSION['error'] = "Sorry, your file is too large";
-        header("location: ../Views/fileUpload.php");
-    }
-    
-    // check if the image file type is the allowed one
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $_SESSION['error'] = "Sorry, only JPG, JPEG, PNG files are allowed.";
-        header("location: ../Views/fileUpload.php"); 
+        //check if image already exist in the destination path
+        if (file_exists($pic_name)){
+            $_SESSION['error'] = "File already exists";
+            header("location: ../Views/fileUpload.php");
+        }
+        
+        //check if the image size is less than 5MB
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $_SESSION['error'] = "Sorry, your file is too large";
+            header("location: ../Views/fileUpload.php");
+        }
+        
+        // check if the image file type is the allowed one
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $_SESSION['error'] = "Sorry, only JPG, JPEG, PNG files are allowed.";
+            header("location: ../Views/fileUpload.php"); 
+        }
+
+        // upload image to uploads folder and to database
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $pic_name)) {
+            upload_image("username placeholder...", $pic_name);
+            $_SESSION['error'] = "The file ". $pic_name . " has been uploaded.";
+        } else {
+            $_SESSION['error'] = "Sorry, there was an error uploading your file.";
+        }
     }
 
-    // upload image to uploads folder and to database
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $pic_name)) {
-        upload_image("thembi", $pic_name);
+    if(isset($_POST["cam_pic"]) && !empty($_POST['img'])){
+
+        
+        $image_parts = explode(";base64,", $_POST['img']);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_file_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $pic_name = "../uploads/" . uniqid() . '.png';
+        file_put_contents($pic_name, $image_base64);
+        upload_image("username placeholder...", $pic_name);
         $_SESSION['error'] = "The file ". $pic_name . " has been uploaded.";
-    } else {
-        $_SESSION['error'] = "Sorry, there was an error uploading your file.";
     }
-}
 
-if(isset($_POST["cam_pic"])){
-    echo $_POST["img"];//die();
-
-    //define('UPLOAD_DIR', '../uploads/');
-    $image_parts = explode(";base64,", $_POST['img']);
-    $image_type_aux = explode("../uploads/", $image_parts[0]);
-    $image_file_type = $image_type_aux[1];
-    $image_base64 = base64_decode($image_parts[1]);
-    $pic_name = "../uploads/" . uniqid() . '.png';
-    file_put_contents($pic_name, $image_base64);
-}
-
-    header("location: ../Views/fileUpload.php");
+    header("Location: ../Views/fileUpload.php");
 ?>

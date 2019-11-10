@@ -3,7 +3,7 @@
 
 session_start();
 
-require '../Config/connection.php';
+require '../Config/database.php';
 
 $username = $_POST['username'];
 $password = md5($_POST['passwd']);
