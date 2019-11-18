@@ -1,5 +1,6 @@
 <?php
 
+//require '../Controllers/login.php';
 session_start();
 if (isset($_POST['login']))
 {
@@ -13,7 +14,7 @@ if (isset($_POST['login']))
     else
     {
         $pass = md5($pass);
-        require("../Config/connection.php");
+        require("../Config/database.php");
         $sql = "SELECT * FROM users WHERE username = ? AND pass = ? LIMIT 1";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(1, $user);
@@ -34,6 +35,7 @@ if (isset($_POST['login']))
                 $_SESSION["login"]["username"] = $user["username"];
                 $_SESSION["username"] = $user["username"];
                 echo "you are loged in";
+                header("Location: ../Views/fileUpload.php");
             }
         }
         else
@@ -52,18 +54,18 @@ if (isset($_POST['login']))
     <body>
         <div class="header">
         <h2>Camagru Login</h2>
+        <center><a href="publicgallery.php">Gallery</a></center>
         </div>
-
         <div class = "form">
         <form method="post">
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Enter Username..." value="unathi">
+                <input type="text" name="username" placeholder="Enter Username..." required>
             </div>
             
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Enter Password..." value="a">
+                <input type="password" name="password" placeholder="Enter Password..." required>
             </div>
             <div class="input-group">
                 <button type="submit" name="login" class="btn">Login</button>

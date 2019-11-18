@@ -1,6 +1,10 @@
+
+
+canvas = null;
+
 (function(){
     
-    var canvas = document.getElementById('canvas'),
+    canvas = document.getElementById('canvas'),
     context = canvas.getContext('2d'),
     video = document.getElementById('video'),
     capture = document.getElementById('capture'),
@@ -12,7 +16,7 @@
                          navigator.msGetUserMedia;
 
     navigator.getMedia({
-        video: true,
+        video: { width: 400, height: 300 },
         audio: false
         
     }, function(stream){
@@ -33,3 +37,26 @@
     });
     
 })();
+function addSticker(path) {
+    var sticker = new Image();
+    var width = video.offsetWidth, height = video.offsetHeight;
+    sticker.src = path;
+    if (canvas) {
+        contxt = canvas.getContext('2d');
+        contxt.drawImage(sticker, 0, 0, width, height);
+        pic.value = canvas.toDataURL('image/png');
+        if (!(document.getElementById("img"))) {
+            var elem = document.createElement("img");
+            elem.setAttribute("src", sticker.src);
+            document.getElementById("stickers").appendChild(elem);
+        }
+        else {
+            var elem = document.createElement("img");
+            elem.setAttribute("src", "images/hydrangeas.jpg");
+        }
+    }
+    // else {
+
+    //     document.getElementById("stickers").innerHTML = "Take a picture first.";
+    // }
+};

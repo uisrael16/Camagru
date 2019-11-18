@@ -15,7 +15,7 @@ require_once '../Controllers/register.php';
         <h2>Camagru Register</h2>
         </div>
 
-        <form method="post" action="register.php">
+        <form method="post" action="../Views/register.php">
             <div class="input-group">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Enter Username..."required>
@@ -26,11 +26,11 @@ require_once '../Controllers/register.php';
             </div>
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" name="password_1" placeholder="Enter Password..."required>
+                <input type="password" name="password_1" placeholder="Enter Password..." required>
             </div>
             <div class="input-group">
                 <label>Confirm Password</label>
-                <input type="password" name="password_2" placeholder="Enter Password..."required>
+                <input type="password" name="password_2" placeholder="Enter Password..."  required>
                 <p style='color: red'>
                     
                     

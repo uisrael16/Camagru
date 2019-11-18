@@ -25,7 +25,7 @@
      
     </div>
 <div id = "signup">
-        <form action= "editpro.php" method = "post" style="margin-top: 100px;">
+        <form action= "../Views/edit.php" method = "post" style="margin-top: 100px;">
              <img src = "../images/user.jpg" width = "300" height = "300">
             <p id = "errmsg">
             </p>

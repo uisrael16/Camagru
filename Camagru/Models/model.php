@@ -1,6 +1,6 @@
 <?php
     require "../Config/database.php";
-    
+
     function upload_image($username, $picture)
     {
         global $conn;
@@ -11,7 +11,7 @@
         try{
             $stmt->execute([$username, $picture]);
             echo "picture successfully added";
-        } 
+        }
         catch(Exception $ex) {
             die($ex->getMessage());
         }
@@ -20,7 +20,7 @@
     function delete_image($pic_id)
     {
         global $conn;
-        
+
         $sql = "DELETE FROM images WHERE id = ?";
         $stmt= $conn->prepare($sql);
 
@@ -35,19 +35,14 @@
 
     function getAllImages()
     {
-        global $conn;
         
-        $sql = "SELECT * FROM images ORDER BY upload_date";
-        $stmt= $conn->prepare($sql);
+        global $conn;
 
-        try{
-            $stmt->execute();
-            $images = $stmt->fetchAll();
-            return $images;
-        }
-        catch(Exception $ex){
-            die($ex->getMessage());
-        }   
+        $sql = "SELECT * FROM images ORDER BY upload_date DESC LIMIT 5 OFFSET 0";
+        $stmt= $conn->prepare($sql);
+        $stmt->execute();
+        $images = $stmt->fetchAll();
+        return $images;
     }
 
 ?>

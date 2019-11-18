@@ -18,14 +18,14 @@
     )";
     $conn->exec($sql);
     $sql = "CREATE TABLE IF NOT EXISTS`comments` (
-    `id` int(11) NOT NULL,
+    `id` int(11) NOT NULL  NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
     `image_id` int(11) NOT NULL,
     `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
     $conn->exec($sql);  
     $sql = "CREATE TABLE IF NOT EXISTS`likes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL  NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(255) NOT NULL,
   `image_id` int(11) NOT NULL
     )";
@@ -40,3 +40,4 @@
     header("Location: ../index.php");
     
 ?>
+

@@ -6,7 +6,7 @@
 
 <html>
     <head>
-        <title>Imaging</title>
+        <title>Gallery</title>
         <link rel="stylesheet" type="text/css" href="../CSS/cam.css">
         <link rel="stylesheet" type="text/css" href="../CSS/index.css">
      <style type="text/css">
@@ -17,6 +17,7 @@
 
 </head>
 <body>
+
 <ul>
   <li><a href="fileUpload.php">Home</a></li>
   <li><a href="edit.php">Edit Profile</a></li>
@@ -33,8 +34,14 @@
 </form>
 
 <div class="booth">
-    <video id="video" width="400" hieght="300" autoplay></video>
-    <canvas id="canvas" width="400" hiegth="300"></canvas>
+    <video id="video" width="400" height="300" autoplay></video>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <div id="stickers" style="display:inline-block;">
+    <button onclick="addSticker('../stickers/hearts1.png')" class="btn">Hearts</button>
+    <button onclick="addSticker('../stickers/gold.png')" class="btn">gold</button>
+    <button onclick="addSticker('../stickers/imagination.png')" class="btn">imagination</button>
+</div>
+
 </div>
 
 <form action="../Controllers/fileUpload.php" method="post">
@@ -56,4 +63,7 @@
     <center><p style="display:inline; color:white"> &copy uisrael </p></center>
 </div>
 </body>
+<script>
+
+</script>
 </html>

@@ -1,8 +1,9 @@
 <?php
-ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+//     ini_set('display_startup_errors', 1);
+//     error_reporting(E_ALL);
 session_start();
+
 if (isset($_SESSION['login']))
 {
     $login_id = $_SESSION['login']['id'];
@@ -32,26 +33,16 @@ if (isset($_SESSION['login']))
 <?php
     require ("../Models/model.php");
     $image_array = getAllImages();
-/*
-    foreach ($image_array as $image) {
-        echo '</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="'. $image['picture'] .'" alt="" class="src"></br>'.
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button>Like</button>'.
-        '<input type="text" name="comment" placeholder="type comment here ...">'.
-        '<button>Comment</button></br>
-        </br>
-     </br>'
-        ;
-    }
-  */
+
 
     $img_id = null;
     if (isset($_GET['img_id']))
     {
-        $img_id = $_GET['img_id'];    
+        $img_id = $_GET['img_id'];
     }
     if (isset($_POST['submit_comment']))
     {
-        $comment = $_POST['comment'];
+        $comment = strip_tags($_POST['comment']);
         if (empty($comment))
         {
             echo "<p>blank comment</p>";
@@ -65,19 +56,44 @@ if (isset($_SESSION['login']))
             $stmt->bindParam(2, $img_id);
             $stmt->bindParam(3, $comment);
             $stmt->execute();
+
+            $username = $_GET['id'];
+
+            require ("../Config/database.php");
+            $sql = "SELECT * FROM users WHERE username = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            
+            $result = $stmt->fetch();
+
+            //die($result['email']);
+
         }
+        
     }
 
     if (isset($_POST['like']))
     {
         if ($login_username)
         {
+            $username = $_GET['id'];
+
+            require ("../Config/database.php");
+            $sql = "SELECT * FROM likes WHERE username = ? AND image_id = ?";
+            $stmt = $conn->prepare($sql);
+            // $stmt->bindParam(1, $username);
+            $stmt->execute([$username, $img_id]);
+            $res = $stmt->fetch();
+            
+            if ($stmt->rowCount() < 1){
             require("../Config/database.php");
             $sql = "INSERT INTO likes (username, image_id) VALUES (?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(1, $login_username);
             $stmt->bindParam(2, $img_id);
             $stmt->execute();
+            }
         }
     }
 
@@ -101,6 +117,7 @@ if (isset($_SESSION['login']))
 
     function count_likes($like_id)
     {
+
         require ("../Config/database.php");
         $sql = "SELECT * FROM likes WHERE image_id = ?";
         $stmt = $conn->prepare($sql);
@@ -110,24 +127,33 @@ if (isset($_SESSION['login']))
     }
 
 ?>
-<?php foreach($image_array as $image): ?>
-<img src="<?php echo $image['picture']; ?>" alt=""><br>
-<form method="post" action="?img_id=<?php echo $image['id']; ?>">
+<?php foreach($image_array as $image):?>
+
+
+<img src="<?php 
+    echo $image["picture"]; 
+
+?>" alt="<?php echo $image["picture"]; ?>"><br>
+<form method="post" action="?id=<?=$_SESSION['username'];?>&img_id=<?php echo $image['id']; ?>">
     <input type="text" name="comment" placeholder="type comment here ..."><br>
     <button name="submit_comment" type="submit">submit comment</button><br>
     <?php count_likes($image['id']); ?>
     <button type="submit" name="like">like</button><br>
+   
 </form>
 <?php display_comment($image['id']) ?>
 <?php endforeach; ?>
  <div class="footer" style="    background:  royalblue;
-    //position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     //hieght :200%;
     overflow: hidden;
     width: 100%;">
     <center><p style="display:inline; color:white"> &copy uisrael </p></center>
+     <div>
+       
+     </div>
 </div>
 </body>
 </html>

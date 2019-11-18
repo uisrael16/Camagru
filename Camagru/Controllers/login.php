@@ -32,28 +32,13 @@
                 $_SESSION["login"]["username"] = $user["username"];
                 $_SESSION["username"] = $user["username"];
                 echo 'OK';
-                header("location:../Views/fileUpload.php");
+                header("../Views/fileUpload.php");
             }
             else
             {
                 echo "ERROR";
             }
-            echo "<br>$username<br>$password";
-            /*
-            $count = $stmt->fetch();
-             if(!empty($count))
-            {
-                $_SESSION["login"]["id"] = $count["id"];
-                $_SESSION["login"]["email"] = $count["email"];
-                $_SESSION["login"]["username"] = $count["username"];
-
-                $_SESSION["username"] = $count["username"];
-                
-            }
-            else {
-                 $message = '<label>Wrong Data</label>';
-             }
-             */
+            // echo "<br>$username<br>$password";
         }
         $conn = null;
     }
